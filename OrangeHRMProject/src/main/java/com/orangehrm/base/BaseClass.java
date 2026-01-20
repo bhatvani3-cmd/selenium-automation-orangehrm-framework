@@ -15,6 +15,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.asserts.SoftAssert;
+
 import com.orangehrm.actiondriver.ActionDriver;
 import com.orangehrm.utilities.ExtentManager;
 import com.orangehrm.utilities.LoggerManager;
@@ -27,9 +29,15 @@ public class BaseClass {
 
 	private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	private static ThreadLocal<ActionDriver> actionDriver = new ThreadLocal<>();
-
 	public static final Logger logger = LoggerManager.getLoggerManager(BaseClass.class);
-
+	
+	protected static ThreadLocal<SoftAssert> softAssert=ThreadLocal.withInitial(SoftAssert::new);
+	
+	//getter method for soft Assert
+	public SoftAssert getSoftAssert() {
+		return softAssert.get();
+	}
+	
 	@BeforeSuite
 	public void loadconfig() throws IOException {
 		// Load Config file
