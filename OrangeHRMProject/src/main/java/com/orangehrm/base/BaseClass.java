@@ -10,8 +10,11 @@ import java.util.concurrent.locks.LockSupport;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -42,7 +45,7 @@ public class BaseClass {
 	public void loadconfig() throws IOException {
 		// Load Config file
 		prop = new Properties();
-		FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
+		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/config.properties");
 		prop.load(fis);
 		logger.info("config.properties file loaded");
 
@@ -75,18 +78,45 @@ public class BaseClass {
 	private void launchbrowser() {
 		String Browser = prop.getProperty("browser");
 		if (Browser.equalsIgnoreCase("chrome")) {
+			ChromeOptions options= new ChromeOptions();
+			//options.addArguments("--headless");
+			options.addArguments("--window-size=1920,1080");
+			options.addArguments("--diable-gpu");
+			options.addArguments("--no-sandbox");
+			options.addArguments("--disable-dev-shm-usage");
+			options.addArguments("--disable-notifications");
 			// driver = new ChromeDriver();
-			driver.set(new ChromeDriver());
+			driver.set(new ChromeDriver(options));
 			ExtentManager.registerDriver(getDriver());
 			logger.info("Chrome instance created");
-		} else if (Browser.equalsIgnoreCase("firefox")) {
+			
+		} 
+		else if (Browser.equalsIgnoreCase("firefox")) {
+			
+			FirefoxOptions options=new FirefoxOptions();
+			options.addArguments("--headless");
+			options.addArguments("--disable-gpu"); // Disable GPU rendering (useful for headless mode)
+			options.addArguments("--width=1920"); // Set browser width
+			options.addArguments("--height=1080"); // Set browser height
+			options.addArguments("--disable-notifications"); // Disable browser notifications
+			options.addArguments("--no-sandbox"); // Needed for CI/CD environments
+			options.addArguments("--disable-dev-shm-usage");
 			// driver = new FirefoxDriver();
-			driver.set(new FirefoxDriver());
+			driver.set(new FirefoxDriver(options));
 			ExtentManager.registerDriver(getDriver());
 			logger.info("Firefox instance created");
-		} else if (Browser.equalsIgnoreCase("edge")) {
+			
+		} 
+		else if (Browser.equalsIgnoreCase("edge")) {
+			
+			EdgeOptions options = new EdgeOptions();
+			options.addArguments("--headless");
+			options.addArguments("--window-size=1920,1080"); // Set window size
+			options.addArguments("--disable-notifications"); // Disable pop-up notifications
+			options.addArguments("--no-sandbox"); // Needed for CI/CD
+			options.addArguments("--disable-dev-shm-usage");
 			// driver = new EdgeDriver();
-			driver.set(new EdgeDriver());
+			driver.set(new EdgeDriver(options));
 			logger.info("Edge instance created");
 			ExtentManager.registerDriver(getDriver());
 

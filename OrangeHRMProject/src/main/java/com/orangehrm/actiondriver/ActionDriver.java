@@ -236,4 +236,17 @@ public class ActionDriver {
 			e.printStackTrace();
 		}
 	}
+	 // Method to click using JavaScript
+    public void clickUsingJS(By by) {
+        try {
+            WebElement element = driver.findElement(by);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            applyBorder(by, "green");
+            logger.info("Clicked element using JavaScript: " + getElementDescription(by));
+        } catch (Exception e) {
+            applyBorder(by, "red");
+            logger.error("Unable to click using JavaScript", e);
+        }
+    }
+    
 }

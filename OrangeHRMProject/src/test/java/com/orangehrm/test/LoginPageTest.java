@@ -41,7 +41,7 @@ public class LoginPageTest extends BaseClass{
 		//ExtentManager.startTest("Valid login test 1");
 		System.out.println("Running test on Thread"+Thread.currentThread().getId());
 		ExtentManager.logStep("Entering username and password");
-		//String username = prop.getProperty("usernae");
+		//String username = prop.getProperty("username");
 		//String password = prop.getProperty("password");
 		loginpage.userLogin(username, password);
 		Assert.assertTrue(homepage.isAdminVisible(), "Admin tab should be visible after successful login");

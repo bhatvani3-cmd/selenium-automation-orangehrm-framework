@@ -13,6 +13,7 @@ import com.orangehrm.pages.LoginPage;
 import com.orangehrm.utilities.DBconnection;
 import com.orangehrm.utilities.DataProviders;
 import com.orangehrm.utilities.ExtentManager;
+import com.orangehrm.utilities.RetryAnalyzer;
 
 public class DBVerificationTest extends BaseClass {
 	
@@ -46,7 +47,7 @@ public class DBVerificationTest extends BaseClass {
 		String middleName=empDetails.get("middleName");
 		String lastName=empDetails.get("lastName");
 		
-		String firstandMiddleName= (firstName+" Test "+middleName).trim();
+		String firstandMiddleName= (firstName+" "+middleName).trim();
 		
 		ExtentManager.logStep("Verify employee first and middle name");
 		softAssert.assertTrue(homepage.verifyEmpFirstandmiddleName(firstandMiddleName), "First and middle name are not matching");

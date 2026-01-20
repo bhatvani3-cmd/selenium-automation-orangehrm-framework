@@ -6,7 +6,11 @@
 	</listeners>
 	<test name="Test">
 		<classes>
-			<class name="com.orangehrm.test.DBVerificationTest" />
+		<class name="com.orangehrm.test.HomePageTest" />
+		<class name="com.orangehrm.test.HomePageTest2" />
+		<class name="com.orangehrm.test.LoginPageTest" />
+		<class name="com.orangehrm.test.LoginPageNegativeTest" />
+		<class name="com.orangehrm.test.DBVerificationTest" />
 		</classes>
 	</test> <!--
 	Test -->
