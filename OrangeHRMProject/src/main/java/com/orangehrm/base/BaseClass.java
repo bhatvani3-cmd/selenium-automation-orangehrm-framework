@@ -134,10 +134,10 @@ public class BaseClass {
 		int implicitwait = Integer.parseInt(prop.getProperty("ImplicitWait"));
 		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitwait));
 		// Maximize the window
-		Dimension screen = getscreenSizeSafe();
-		getDriver().manage().window().setSize(screen);
+		//Dimension screen = getscreenSizeSafe();
+		//getDriver().manage().window().setSize(screen);
 
-		//getDriver().manage().window().maximize();
+		getDriver().manage().window().maximize();
 		try {
 			// Navigate to url
 			String url = prop.getProperty("url");
