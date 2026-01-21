@@ -82,8 +82,8 @@ public class BaseClass {
 		String Browser = prop.getProperty("browser");
 		if (Browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options= new ChromeOptions();
-			options.addArguments("--headless=new");
-			options.addArguments("--window-size=1920,1080");
+			//options.addArguments("--headless=new");
+			//options.addArguments("--window-size=1920,1080");
 			options.addArguments("--start-maximized");
 			options.addArguments("--diable-gpu");
 			options.addArguments("--no-sandbox");
@@ -134,8 +134,8 @@ public class BaseClass {
 		int implicitwait = Integer.parseInt(prop.getProperty("ImplicitWait"));
 		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitwait));
 		// Maximize the window
-		Dimension screen = getscreenSizeSafe();
-		getDriver().manage().window().setSize(screen);
+		//Dimension screen = getscreenSizeSafe();
+		//getDriver().manage().window().setSize(screen);
 
 		getDriver().manage().window().maximize();
 		try {
