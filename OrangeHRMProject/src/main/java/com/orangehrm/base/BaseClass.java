@@ -1,5 +1,7 @@
 package com.orangehrm.base;
 
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -79,8 +82,9 @@ public class BaseClass {
 		String Browser = prop.getProperty("browser");
 		if (Browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options= new ChromeOptions();
-			//options.addArguments("--headless");
-			options.addArguments("--window-size=1920,1080");
+			options.addArguments("--headless");
+			options.addArguments("--window-size=1920x1080");
+			options.addArguments("--start-maximized");
 			options.addArguments("--diable-gpu");
 			options.addArguments("--no-sandbox");
 			options.addArguments("--disable-dev-shm-usage");
@@ -130,7 +134,10 @@ public class BaseClass {
 		int implicitwait = Integer.parseInt(prop.getProperty("ImplicitWait"));
 		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitwait));
 		// Maximize the window
-		getDriver().manage().window().maximize();
+		Dimension screen = getscreenSizeSafe();
+		getDriver().manage().window().setSize(screen);
+
+		//getDriver().manage().window().maximize();
 		try {
 			// Navigate to url
 			String url = prop.getProperty("url");
@@ -184,6 +191,21 @@ public class BaseClass {
 			}
 		}
 		//ExtentManager.endTest(); -- implemented through listeners
+	}
+	
+	private static Dimension getscreenSizeSafe() {
+		
+		try {
+			Toolkit toolkit= Toolkit.getDefaultToolkit();
+			java.awt.Dimension d=toolkit.getScreenSize();
+			return new Dimension(d.width,d.height);
+		} catch (HeadlessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Dimension(1920,1080);
+		}
+		
+		
 	}
 
 }
