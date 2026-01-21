@@ -82,8 +82,8 @@ public class BaseClass {
 		String Browser = prop.getProperty("browser");
 		if (Browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options= new ChromeOptions();
-			options.addArguments("--headless");
-			options.addArguments("--window-size=1920x1080");
+			options.addArguments("--headless=new");
+			options.addArguments("--window-size=1920,1080");
 			options.addArguments("--start-maximized");
 			options.addArguments("--diable-gpu");
 			options.addArguments("--no-sandbox");
