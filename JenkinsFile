@@ -1,34 +1,49 @@
 pipeline {
-    agent any
+    agent any  
 
     tools {
-        maven 'Maven 3.9.11' // must match Jenkins config
+        maven 'Maven 3.9.11'   // Make sure this matches your Jenkins Maven tool name
     }
 
     stages {
+
         stage('Checkout') {
             steps {
+                // Checkout code from GitHub
                 git branch: 'main', url: 'https://github.com/bhatvani3-cmd/selenium-automation-orangehrm-framework.git'
+            }
+        }
+
+        stage('Workspace Info') {
+            steps {
+                // Optional: see folder structure in Jenkins workspace
+                bat 'dir'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'mvn clean install'
+                // Run Maven inside the subfolder where pom.xml is
+                dir('OrangeHRMProject') {
+                    bat 'mvn clean install'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                dir('OrangeHRMProject') {
+                    bat 'mvn test'
+                }
             }
         }
 
         stage('Reports') {
             steps {
+                // Publish Extent HTML Report
                 publishHTML(target: [
-                    reportDir: 'src/test/resources/ExtentReport',
-                    reportFiles: 'ExtentReport.html',
+                    reportDir: 'OrangeHRMProject/src/test/resources/ExtentReport',  
+                    reportFiles: 'ExtentReport.html',  
                     reportName: 'Extent Report'
                 ])
             }
@@ -37,8 +52,9 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/src/test/resources/ExtentReport/*.html', fingerprint: true
-            junit 'target/surefire-reports/*.xml'
+            // Archive HTML reports and JUnit XML
+            archiveArtifacts artifacts: 'OrangeHRMProject/src/test/resources/ExtentReport/*.html', fingerprint: true
+            junit 'OrangeHRMProject/target/surefire-reports/*.xml'
         }
 
         success {
