@@ -38,7 +38,7 @@ public class DBVerificationTest extends BaseClass {
 		homepage.clickonPIMtab();
 		ExtentManager.logStep("Search for employee");
 		homepage.searchEmployee(empName);
-		staticWait(3);
+		staticWait(3);//increased wait time
 		
 		ExtentManager.logStep("get the employee name from the database");
 		Map<String, String> empDetails= DBconnection.getEmployeeDetails(empID);
